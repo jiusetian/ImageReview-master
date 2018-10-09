@@ -8,9 +8,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
-import android.widget.ImageView;
 
-import com.jchou.imagereview.adapter.ImagePagerAdapter;
 import com.jchou.imagereview.util.ScreenUtils;
 import com.nineoldandroids.animation.ValueAnimator;
 import com.nineoldandroids.view.ViewHelper;
@@ -40,7 +38,7 @@ public class DragViewPager extends ViewPager implements View.OnClickListener {
     /**
      * 要缩放的View
      */
-    private ImageView currentShowView;
+    private View currentShowView;
     /**
      * 滑动速度检测类
      */
@@ -82,7 +80,7 @@ public class DragViewPager extends ViewPager implements View.OnClickListener {
     }
 
 
-    public void setCurrentShowView(ImageView currentShowView) {
+    public void setCurrentShowView(View currentShowView) {
         this.currentShowView = currentShowView;
         if (this.currentShowView != null) {
             this.currentShowView.setOnClickListener(this);
@@ -92,27 +90,25 @@ public class DragViewPager extends ViewPager implements View.OnClickListener {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (getAdapter() instanceof ImagePagerAdapter) {
-            switch (ev.getAction()) {
-                case MotionEvent.ACTION_DOWN:
-                    Log.d(TAG, "onInterceptTouchEvent: 是否拦截按下事件");
-                    mDownX = ev.getRawX();
-                    mDownY = ev.getRawY();
-                    break;
-                case MotionEvent.ACTION_MOVE:
-                    Log.d(TAG, "onInterceptTouchEvent: 是否拦截滑动事件");
-                    int deltaX = Math.abs((int) (ev.getRawX() - mDownX));
-                    int deltaY = Math.abs((int) (ev.getRawY() - mDownY));
-                    Log.d(TAG, "onInterceptTouchEvent: 滑动的距离=" + deltaX + "////" + deltaY);
-                    //在Y轴方向滑动的距离大于某个值而且大于X轴方向的距离就算有效的下拉动作
-                    if (deltaY > DRAG_GAP_PX && deltaY > deltaX) {
-                        Log.d(TAG, "onInterceptTouchEvent: 拦截事件");
-                        return true;
-                    }
-                    break;
-                case MotionEvent.ACTION_UP:
-                    break;
-            }
+        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                Log.d(TAG, "onInterceptTouchEvent: 是否拦截按下事件");
+                mDownX = ev.getRawX();
+                mDownY = ev.getRawY();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.d(TAG, "onInterceptTouchEvent: 是否拦截滑动事件");
+                int deltaX = Math.abs((int) (ev.getRawX() - mDownX));
+                int deltaY = Math.abs((int) (ev.getRawY() - mDownY));
+                Log.d(TAG, "onInterceptTouchEvent: 滑动的距离=" + deltaX + "////" + deltaY);
+                //在Y轴方向滑动的距离大于某个值而且大于X轴方向的距离就算有效的下拉动作
+                if (deltaY > DRAG_GAP_PX && deltaY > deltaX) {
+                    Log.d(TAG, "onInterceptTouchEvent: 拦截事件");
+                    return true;
+                }
+                break;
+            case MotionEvent.ACTION_UP:
+                break;
         }
         return super.onInterceptTouchEvent(ev);
     }

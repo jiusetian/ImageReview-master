@@ -4,7 +4,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.jchou.imagereview.R;
 import com.jchou.imagereview.ui.ImageDetailFragment;
@@ -33,7 +32,7 @@ public class ImagePagerAdapter extends FragmentStatePagerAdapter {
                 @Override
                 public void onInit() {
                     View view = fragment.getView();
-                    mPager.setCurrentShowView((ImageView) view.findViewById(R.id.image));
+                    mPager.setCurrentShowView( view.findViewById(R.id.image));
                 }
             });
             fragments.add(fragment);
